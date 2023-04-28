@@ -1540,6 +1540,32 @@ var isMatch = function (s, p) {
 console.log(isMatch('acdcb', 'a*c?b'))
 */
 
+var jump = function (nums) {
+  let total = 0
+  if(nums.length === 1) {
+    return 0
+  }
+  function getIndex(start) {
+    let minI = start
+    for (let i = start; i >= 0; i--) {
+      if (nums[i] >= start - i) {
+        if (i <= 0) {
+          minI = 0
+          break;
+        }
+        minI = Math.min(minI, i)
+      }
+    }
+    total++
+    if (minI > 0) {
+      getIndex(minI)
+    }
+  }
+  getIndex(nums.length - 1)
+  return total
+};
+
+jump([2, 3, 1, 1, 4])
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
