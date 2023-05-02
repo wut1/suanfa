@@ -1538,7 +1538,7 @@ var isMatch = function (s, p) {
 };
 
 console.log(isMatch('acdcb', 'a*c?b'))
-*/
+
 
 var jump = function (nums) {
   let total = 0
@@ -1566,6 +1566,35 @@ var jump = function (nums) {
 };
 
 jump([2, 3, 1, 1, 4])
+*/
+
+var permute = function (nums) {
+  if (nums.length === 1) {
+    return [nums]
+  }
+
+  if (nums.length === 2) {
+    const newRev = [...nums].reverse()
+    return [nums, newRev]
+  }
+  let arr = []
+  for (let i = 0; i < nums.length; i++) {
+    let newNums = [...nums]
+    newNums.splice(i, 1)
+    let curr = nums[i]
+    let perList = permute(newNums)
+    perList.forEach(pl => {
+      const newpl = [...pl]
+      newpl.unshift(curr)
+      arr.push(newpl)
+    })
+
+  }
+
+  return arr
+};
+
+console.log(permute([1, 2, 3]))
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
