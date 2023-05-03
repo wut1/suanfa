@@ -1566,7 +1566,7 @@ var jump = function (nums) {
 };
 
 jump([2, 3, 1, 1, 4])
-*/
+
 
 var permute = function (nums) {
   if (nums.length === 1) {
@@ -1595,6 +1595,43 @@ var permute = function (nums) {
 };
 
 console.log(permute([1, 2, 3]))
+*/
+
+var permuteUnique = function (nums) {
+  nums = nums.sort()
+
+  if (nums.length === 1) {
+    return [nums]
+  }
+
+  if (nums.length === 2) {
+    const newRev = [...nums].reverse()
+    if(newRev[0] === nums[0]) {
+      return [nums]
+    }
+    return [nums, newRev]
+  }
+  let arr = []
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === nums[i + 1]) {
+      continue
+    }
+    let newNums = [...nums]
+    newNums.splice(i, 1)
+    let curr = nums[i]
+    let perList = permuteUnique(newNums)
+    perList.forEach(pl => {
+      const newpl = [...pl]
+      newpl.unshift(curr)
+      arr.push(newpl)
+    })
+
+  }
+
+  return arr
+};
+
+console.log(permuteUnique([1, 2, 3]))
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
