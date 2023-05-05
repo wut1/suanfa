@@ -1595,7 +1595,6 @@ var permute = function (nums) {
 };
 
 console.log(permute([1, 2, 3]))
-*/
 
 var permuteUnique = function (nums) {
   nums = nums.sort()
@@ -1632,6 +1631,30 @@ var permuteUnique = function (nums) {
 };
 
 console.log(permuteUnique([1, 2, 3]))
+*/
+var rotate = function (matrix) {
+  const len = matrix.length
+  matrix.forEach((item, index) => {
+    item.reverse()
+    matrix[index] = item
+  })
+  matrix.forEach((item, index) => {
+    item.forEach((el, i) => {
+      if (i < len - index) {
+        let temp = matrix[index][i]
+        matrix[index][i] = matrix[len - i - 1][len - 1 - index]
+        matrix[len - i - 1][len - 1 - index] = temp
+      }
+    })
+  })
+  return matrix
+};
+
+console.log(rotate([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+/**
+ * [[7,4,1],[8,5,2],[9,6,3]]
+ */
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
