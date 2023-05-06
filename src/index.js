@@ -1631,7 +1631,7 @@ var permuteUnique = function (nums) {
 };
 
 console.log(permuteUnique([1, 2, 3]))
-*/
+
 var rotate = function (matrix) {
   const len = matrix.length
   matrix.forEach((item, index) => {
@@ -1651,10 +1651,76 @@ var rotate = function (matrix) {
 };
 
 console.log(rotate([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
-/**
- * [[7,4,1],[8,5,2],[9,6,3]]
- */
 
+
+var groupAnagrams = function (strs) {
+
+  let newStrs = strs.map(str => {
+    let sotStr = str.split('').sort().join('')
+    return [sotStr, str]
+  })
+
+  let obj = {}
+
+  for (let i = 0; i < newStrs.length; i++) {
+    const key = newStrs[i][0]
+    if(obj[key]) {
+      obj[key].push(newStrs[i][1])
+    } else {
+      obj[key] = [newStrs[i][1]]
+    }
+  }
+
+  return Object.values(obj)
+
+};
+
+console.log(groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
+*/
+
+
+
+var myPow = function (x, n) {
+
+  const cache = {}
+  function getResult(num) {
+    const count = Math.abs(num)
+    if (cache[count]) {
+      return cache[count]
+    }
+    const pre = Math.floor(count / 2)
+    const next = count - pre
+
+
+    let result = 0
+    if (count == 0) {
+      result = 1
+    } else if (count == 1) {
+      result = x
+    } else if (count == 2) {
+      result = x * x
+    } else {
+      result = getResult(pre) * getResult(next)
+    }
+
+    cache[count] = result
+    return result
+  }
+  let sum = getResult(n)
+  if (n < 0) {
+    sum = 1 / sum
+  }
+
+  const result = (+sum) * 100000
+
+  
+
+  return Math.round(result) / 100000
+
+
+};
+
+console.log(myPow(8.88023, 3))
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
