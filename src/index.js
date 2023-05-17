@@ -1782,7 +1782,7 @@ var solveNQueens = function (n) {
   return result
 };
 console.log(solveNQueens(4))
-*/
+
 
 var spiralOrder = function (matrix) {
   if (!matrix.length || !matrix[0].length) {
@@ -1810,6 +1810,44 @@ return order;
 };
 
 console.log(spiralOrder([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+
+*/
+
+/**
+ * 
+ * 转态转移
+ * 
+ * 
+ */
+
+
+
+var canJump = function (nums) {
+
+  let len = nums.length
+
+  const lenArr = new Array(len)
+
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i; j < nums.length; j++) {
+      if (nums[i] > j - i) {
+        lenArr[j] = 1
+      }
+      if(i === nums.length -1) {
+        lenArr[j] = 1
+      }
+    }
+  }
+  console.log(lenArr)
+  const total = lenArr.reduce((prev, curr) => {
+    return prev + curr
+  }, 0)
+
+  return len === total
+};
+
+console.log(canJump([0]))
+
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
