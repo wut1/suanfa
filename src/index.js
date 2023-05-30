@@ -1721,7 +1721,7 @@ var myPow = function (x, n) {
 };
 
 console.log(myPow(8.88023, 3))
-*/
+
 var maxSubArray = function (nums) {
   let pre = 0, maxAns = nums[0];
     nums.forEach((x) => {
@@ -1907,7 +1907,7 @@ var lengthOfLastWord = function(s) {
   return arr[arr.length -1].length
 };
 lengthOfLastWord("Hello World")
-*/
+
 
 
 var generateMatrix = function (n) {
@@ -1932,7 +1932,35 @@ var generateMatrix = function (n) {
 };
 
 console.log(generateMatrix(3))
+*/
 
+var getPermutation = function (n, k) {
+  function factorial(n) {
+    if (n <= 1) {
+      return 1;
+    }
+    return factorial(n - 1) * n;
+  }
+  
+  // 出现的所有数字，之后从中取值
+  const nums = [...Array(n)].map((vo, i) => i + 1);
+
+  // 结果，应有nums组成，并且不重复
+  const re = [];
+
+  let nextK = k;
+  for (let i = n; i > 0; i--) {
+    // 首字符相同数字的数量
+    const factorialN = factorial(i - 1);
+    const num = Math.ceil(nextK / factorialN);
+    re.push(nums.splice(num - 1, 1));
+    nextK = (nextK % factorialN) || factorialN;
+  }
+
+  return re.join('');
+}
+
+console.log(getPermutation(4, 9))
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
