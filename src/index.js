@@ -1732,6 +1732,208 @@ var maxSubArray = function (nums) {
 }
 console.log(maxSubArray([-2,1,-3,4,-1,2,1,-5,4]))
 
+
+var solveNQueens = function (n) {
+
+
+  function isValid(row, col, chessBoard) {
+
+    for (let i = 0; i < row; i++) {
+      if (chessBoard[i][col] === 'Q') {
+        return false
+      }
+    }
+
+    for (let i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+      if (chessBoard[i][j] === 'Q') {
+        return false
+      }
+    }
+
+    for (let i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++) {
+      if (chessBoard[i][j] === 'Q') {
+        return false
+      }
+    }
+    return true
+  }
+
+  function transformChessBoard(chessBoard) {
+    let chessBoardBack = []
+    chessBoard.forEach(row => {
+      let rowStr = ''
+      row.forEach(value => {
+        rowStr += value
+      })
+      chessBoardBack.push(rowStr)
+    })
+
+    return chessBoardBack
+  }
+
+  let result = []
+  function backtracing(row, chessBoard) {
+    if (row === n) {
+  
+      result.push(transformChessBoard(chessBoard))
+     
+      return
+    }
+    for (let col = 0; col < n; col++) {
+      if (isValid(row, col, chessBoard)) {
+        chessBoard[row][col] = 'Q'
+        backtracing(row + 1, chessBoard)
+        chessBoard[row][col] = '.'
+      }
+    }
+  }
+  let chessBoard = new Array(n).fill([]).map(() => new Array(n).fill('.'))
+  backtracing(0, chessBoard)
+  return result
+};
+console.log(solveNQueens(4))
+
+
+var spiralOrder = function (matrix) {
+  if (!matrix.length || !matrix[0].length) {
+    return [];
+}
+const rows = matrix.length, columns = matrix[0].length;
+const visited = new Array(rows).fill(0).map(() => new Array(columns).fill(false));
+const total = rows * columns;
+const order = new Array(total).fill(0);
+
+let directionIndex = 0, row = 0, column = 0;
+const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+for (let i = 0; i < total; i++) { 
+    order[i] = matrix[row][column];
+    visited[row][column] = true;
+    const nextRow = row + directions[directionIndex][0], nextColumn = column + directions[directionIndex][1];
+    if (!(0 <= nextRow && nextRow < rows && 0 <= nextColumn && nextColumn < columns && !(visited[nextRow][nextColumn]))) {
+        directionIndex = (directionIndex + 1) % 4;
+    }
+    row += directions[directionIndex][0];
+    column += directions[directionIndex][1];
+}
+return order;
+
+};
+
+console.log(spiralOrder([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+
+
+
+
+
+
+var canJump = function (nums) {
+
+  let len = nums.length
+
+  const lenArr = new Array(len)
+
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i; j < nums.length; j++) {
+      if (nums[i] > j - i) {
+        lenArr[j] = 1
+      }
+      if(i === nums.length -1) {
+        lenArr[j] = 1
+      }
+    }
+  }
+  console.log(lenArr)
+  const total = lenArr.reduce((prev, curr) => {
+    return prev + curr
+  }, 0)
+
+  return len === total
+};
+
+console.log(canJump([0]))
+
+
+var merge = function (intervals) {
+
+  let newIntervals = intervals.sort((a, b) => a[0] - b[0])
+
+  let i = 0
+  while (i < newIntervals.length) {
+    const curr = newIntervals[i]
+    if (i + 1 < newIntervals.length) {
+      const max = Math.max(curr[0], newIntervals[i + 1][0])
+      const min = Math.min(curr[1], newIntervals[i + 1][1])
+      if (max <= min) {
+        newIntervals[i] = ([Math.min(curr[0], newIntervals[i + 1][0]), Math.max(curr[1], newIntervals[i + 1][1])])
+        newIntervals.splice(i + 1, 1)
+        i -= 1
+      }
+    }
+    i += 1
+  }
+  return newIntervals
+};
+
+console.log(merge([[1, 4], [0, 2], [3, 5]]))
+
+
+var insert = function (intervals, newInterval) {
+  let newList = intervals.concat([newInterval]).sort((a, b) => a[0] - b[0])
+
+  let res = []
+
+  let prev = newList[0]
+
+  for (let i = 1; i < newList.length; i++) {
+    let curr = newList[i]
+    if (prev[1] >= curr[0]) {
+      prev = [prev[0], Math.max(curr[1], prev[1])]
+    } else {
+      res.push(prev)
+      prev = curr
+    }
+  }
+  res.push(prev)
+  return res
+
+};
+console.log(insert([[1,5]], [2, 7]))
+
+
+
+var lengthOfLastWord = function(s) {
+  const arr = s.split(' ').filter(str => !!str);
+  
+  return arr[arr.length -1].length
+};
+lengthOfLastWord("Hello World")
+*/
+
+
+var generateMatrix = function (n) {
+  const maxNum = n * n;
+    let curNum = 1;
+    const matrix = new Array(n).fill(0).map(() => new Array(n).fill(0));
+    let row = 0, column = 0;
+    const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]; // 右下左上
+    let directionIndex = 0;
+    while (curNum <= maxNum) {
+      matrix[row][column] = curNum;
+      curNum++;
+      const nextRow = row + directions[directionIndex][0], nextColumn = column + directions[directionIndex][1];
+      if (nextRow < 0 || nextRow >= n || nextColumn < 0 || nextColumn >= n || matrix[nextRow][nextColumn] !== 0) {
+          directionIndex = (directionIndex + 1) % 4; // 顺时针旋转至下一个方向
+      }
+      row = row + directions[directionIndex][0];
+      column = column + directions[directionIndex][1];
+  }
+  return matrix;
+
+};
+
+console.log(generateMatrix(3))
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
