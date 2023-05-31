@@ -1932,7 +1932,7 @@ var generateMatrix = function (n) {
 };
 
 console.log(generateMatrix(3))
-*/
+
 
 var getPermutation = function (n, k) {
   function factorial(n) {
@@ -1961,6 +1961,8 @@ var getPermutation = function (n, k) {
 }
 
 console.log(getPermutation(4, 9))
+
+*/
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
