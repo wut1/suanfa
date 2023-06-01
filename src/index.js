@@ -1963,6 +1963,32 @@ var getPermutation = function (n, k) {
 console.log(getPermutation(4, 9))
 
 */
+var uniquePaths = function (m, n) {
+  let arr = new Array(m).fill(new Array(n).fill(1))
+
+  arr = arr.map((item, index) => {
+    return item.map((el, i) => {
+      if (index === 0) {
+        return 1
+      } else if (i === 0) {
+        return 1
+      } else {
+        return el
+      }
+    })
+  })
+
+
+  for (let i = 1; i < m; i++) {
+    for (let j = 1; j < n; j++) {
+      arr[i][j] = arr[i - 1][j] + arr[i][j - 1];
+    }
+  }
+
+ return arr[m-1][n-1]
+}
+
+console.log(uniquePaths(3, 7))
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
