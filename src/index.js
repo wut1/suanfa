@@ -1908,8 +1908,6 @@ var lengthOfLastWord = function(s) {
 };
 lengthOfLastWord("Hello World")
 
-
-
 var generateMatrix = function (n) {
   const maxNum = n * n;
     let curNum = 1;
@@ -1962,7 +1960,6 @@ var getPermutation = function (n, k) {
 
 console.log(getPermutation(4, 9))
 
-*/
 var uniquePaths = function (m, n) {
   let arr = new Array(m).fill(new Array(n).fill(1))
 
@@ -1989,6 +1986,9 @@ var uniquePaths = function (m, n) {
 }
 
 console.log(uniquePaths(3, 7))
+
+*/
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
