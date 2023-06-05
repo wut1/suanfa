@@ -2086,8 +2086,59 @@ var isNumber = function (s) {
 
 console.log(isNumber('.'))
 
+
+var plusOne = function (digits) {
+  let jyw = 0
+  digits[digits.length - 1]++
+
+  let arr = []
+  for (let i = digits.length - 1; i >= 0; i--) {
+   
+    let oe = digits[i] + jyw
+    jyw = Math.floor(oe / 10)
+    oe = oe % 10
+
+    arr.unshift(oe)
+    if(jyw !==0 && i==0) {
+      arr.unshift(jyw)
+    }
+  }
+
+  return arr
+};
+
+console.log(plusOne([9]))
+
 */
 
+var addBinary = function (a, b) {
+  let arr = []
+  let jw = 0
+  for (let i = a.length - 1, k = b.length - 1; i >= 0 || k >= 0; i--, k--) {
+    let x = i < 0 ? 0 : parseInt(a[i])
+    let y = k < 0 ? 0 : parseInt(b[k])
+
+    let sum = x + y + jw
+    if(sum > 1){
+      jw = 1
+      sum = sum % 2
+    } else {
+      jw = 0
+    }
+    console.log(jw)
+    arr.unshift(sum)
+   
+    if(jw !==0 && ((i==0 && k <= 0) || (i <= 0 && k==0))) {
+      arr.unshift(jw)
+      break
+    }
+    
+  }
+  
+  return arr.join('')
+}
+
+console.log(addBinary("1111", "1111"))
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
