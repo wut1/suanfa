@@ -1987,6 +1987,105 @@ var uniquePaths = function (m, n) {
 
 console.log(uniquePaths(3, 7))
 
+
+
+
+
+var uniquePathsWithObstacles = function (obstacleGrid) {
+  const m = obstacleGrid.length
+  const n = obstacleGrid[0].length
+
+  let arr = obstacleGrid.map((item, index) => {
+    return item.map((el, i) => {
+      return 1 - el
+    })
+  })
+
+  for (let i = 0; i < m; i++) {
+    for (let j = 0; j < n; j++) {
+      if (arr[i][j] !== 0 && !(i == 0 && j === 0)) {
+        let ijo = 0
+        let jjo = 0
+        if (i - 1 >= 0) {
+          ijo = arr[i - 1][j]
+        }
+        if (j - 1 >= 0) {
+          jjo = arr[i][j - 1]
+        }
+        arr[i][j] = ijo + jjo
+      }
+    }
+  }
+  return arr[m - 1][n - 1]
+}
+
+console.log(uniquePathsWithObstacles([[0, 0], [1, 1], [0, 0]]))
+
+
+var minPathSum = function (grid) {
+
+  grid.forEach((item, index) => {
+     item.forEach((el, i) => {
+      let x = 0
+      let y = 0
+      if (index > 0) {
+        x = grid[index - 1][i]
+      }
+      if (i > 0) {
+        y = grid[index][i - 1]
+      }
+
+      let sum = (x > y ? y : x)
+
+      if (index === 0 && i === 0) {
+        sum = 0
+      }
+      if (index === 0 && i > 0) {
+        sum = y
+      }
+
+      if (i === 0 && index > 0) {
+        sum = x
+      }
+      grid[index][i] = el + sum
+    })
+  })
+  
+  return grid[grid.length - 1][grid[0].length - 1]
+
+};
+
+console.log(minPathSum([[1, 3, 1], [1, 5, 1], [4, 2, 1]]))
+
+
+var isNumber = function (s) {
+  function isDecimals(str) {
+    let test = /^(\+|\-)?(([0-9]+\.[0-9]*)|(\.[0-9]+))$/
+    return test.test(str)
+  }
+  function isInteger(str) {
+    let test = /^(\+|\-)?[0-9]+$/
+    return test.test(str)
+  }
+ let index = s.indexOf('e') & s.indexOf('E')
+
+ let result = true
+
+  if(index > -1){
+    let s1 = s.substring(0, index)
+    let s2 = s.substring(index + 1)
+    result = isInteger(s2)
+
+    result = result && (isDecimals(s1) || isInteger(s1))
+  } else {
+    result = isDecimals(s) || isInteger(s)
+  }
+ 
+  return result
+};
+
+console.log(isNumber('.'))
+
 */
 
 
