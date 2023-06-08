@@ -2109,7 +2109,7 @@ var plusOne = function (digits) {
 
 console.log(plusOne([9]))
 
-*/
+
 
 var addBinary = function (a, b) {
   let arr = []
@@ -2139,6 +2139,11 @@ var addBinary = function (a, b) {
 }
 
 console.log(addBinary("1111", "1111"))
+*/
+
+var fullJustify = function(words, maxWidth) {
+
+};
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
