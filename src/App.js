@@ -1,19 +1,14 @@
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './App.css';
 
+
+
 function App() {
-
-
   const [list, setList] = useState([])
-
-
-  
-
   return (
     <div className="App">
       <header className="App-header">
-
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
@@ -33,5 +28,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

@@ -2139,11 +2139,267 @@ var addBinary = function (a, b) {
 }
 
 console.log(addBinary("1111", "1111"))
-*/
 
-var fullJustify = function(words, maxWidth) {
+
+var mySqrt = function (x) {
+  if(x === 0) return 0
+
+  let ans = Math.exp(0.5 * Math.log(x))
+
+  return ans * ans > x ? Math.floor(ans) - 1 : Math.floor(ans)
+};
+
+console.log(mySqrt(2))
+
+
+
+var climbStairs = function (n) {
+  
+  let prev = 0
+  let next = 0
+  let sum = 1;
+    for (let i = 1; i <= n; ++i) {
+      prev = next;
+      next = sum;
+      sum = prev + next;
+    }
+    return sum  ;
+};
+
+console.log(climbStairs(4))
+
+
+
+var simplifyPath = function (path) {
+  const names = path.split("/");
+  const stack = [];
+  for (const name of names) {
+    if (name === "..") {
+      if (stack.length) {
+        stack.pop();
+      }
+    } else if (name.length && name !== ".") {
+      stack.push(name);
+
+    }
+  }
+
+  return "/" + stack.join("/");
 
 };
+console.log(simplifyPath("/a/./b///../../c/"))
+
+
+
+var minDistance = function (word1, word2) {
+
+  let dp = Array.from(Array(word1.length + 1), () => Array(word2.length+1).fill(0));
+  console.log(dp,'===')
+
+    for(let i = 1; i <= word1.length; i++) {
+        dp[i][0] = i; 
+    }
+
+    for(let j = 1; j <= word2.length; j++) {
+        dp[0][j] = j;
+    }
+
+    for(let i = 1; i <= word1.length; i++) {
+        for(let j = 1; j <= word2.length; j++) {
+            if(word1[i-1] === word2[j-1]) {
+                dp[i][j] = dp[i-1][j-1];
+            } else {
+                dp[i][j] = Math.min(dp[i-1][j] + 1, dp[i][j-1] + 1, dp[i-1][j-1] + 1);
+            }
+        }
+    }
+    
+    return dp[word1.length][word2.length];
+
+};
+
+console.log(minDistance('intention', 'execution'))
+
+
+
+var setZeroes = function (matrix) {
+  let arr = { x: [], y: [] }
+  matrix.forEach((item, i) => {
+    item.forEach((el, j) => {
+      if (el === 0) {
+        arr.x.push(i)
+        arr.y.push(j)
+      }
+    })
+  })
+
+  let m = matrix.length
+  let n = matrix[0].length
+
+  for (let i = m - 1; i >= 0; i--) {
+    for (let j = 0; j < n; j++) {
+      if (arr.x.includes(i) || arr.y.includes(j) && matrix[i][j] !== 0) {
+        matrix[i][j] = 0
+      }
+    }
+  }
+
+
+
+};
+
+let matrix = [[1, 1, 1], [1, 0, 1], [1, 1, 1]]
+
+setZeroes(matrix)
+
+console.log(matrix)
+
+
+var searchMatrix = function (matrix, target) {
+  let m = matrix.length
+  let arr = []
+
+  for (let i = 0; i < m; i++) {
+    const val = matrix[i][0]
+    if (val === target) {
+      return true
+    }
+    if (target > val) {
+      arr = matrix[i]
+    }
+  }
+
+  return arr.includes(target)
+};
+
+console.log(searchMatrix([[1], [2, 3]], 3))
+
+
+var sortColors = function (nums) {
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i + 1; j < nums.length; j++) {
+      if(nums[i] > nums[j]) {
+        const newV = nums[i]
+        nums[i] = nums[j]
+        nums[j] = newV
+      }
+    }
+  }
+};
+
+let arr = [2, 0, 2, 1, 1, 0]
+
+sortColors(arr)
+
+
+
+
+
+var minWindow = function (s, t) {
+  // 需要的
+  let need = {};
+  // 窗口中的字符
+  let win = {};
+  for (let a of t) {
+    // 统计需要的字符
+    need[a] = (need[a] || 0) + 1;
+  }
+  // 左右指针
+  let left = 0,
+    right = 0;
+  let valid = 0;
+  // 最小覆盖子串的起始索引及长度
+  let start = 0,
+    len = Number.MAX_VALUE;
+  while (right < s.length) {
+    // 即将移入窗口的字符
+    let c = s[right];
+    // 右移窗口
+    right++;
+    if (need[c]) {
+      // 当前字符在需要的字符中，则更新当前窗口统计
+      win[c] = (win[c] || 0) + 1;
+      if (win[c] == need[c]) {
+        // 当前窗口和需要的字符匹配时，验证数量增加1
+        valid++;
+      }
+    }
+    // 当验证数量与需要的字符个数一致时，就应该收缩窗口了
+    while (valid == Object.keys(need).length) {
+      // 更新最小覆盖子串
+      if (right - left < len) {
+        start = left;
+        len = right - left;
+      }
+      //即将移出窗口的字符
+      let d = s[left];
+      // 左移窗口
+      left++;
+      if (need[d]) {
+        if (win[d] == need[d]) {
+          valid--;
+        }
+        win[d]--;
+      }
+    }
+  }
+  return len == Number.MAX_VALUE ? "" : s.substr(start, len);
+
+};
+
+console.log(minWindow("ADOBECODEBANC", 'ABC'))
+
+
+var combine = function (n, k) {
+
+  const arr = []
+
+  for (let i = 0; i < n; i++) {
+    arr.push(i + 1)
+  }
+
+  let list = []
+
+  function blist(start, result) {
+    if (result.length === k) {
+      list.push([...result])
+      return false
+    }
+
+    for (let i = start; i < arr.length; i++) {
+      result.push(arr[i])
+      blist(i + 1, result)
+      result.pop()
+    }
+
+  }
+  blist(0, [])
+
+  return list
+
+};
+
+console.log(combine(1, 1))
+
+
+var subsets = function(nums) {
+  if(nums.length === 1) {
+    return [[],nums]
+  }
+  const last = nums.pop()
+  let  preList = subsets(nums)
+  const newLastList = preList.map(item => {
+    return item.concat(last)
+  })
+
+  return preList.concat(newLastList)
+  
+};
+
+console.log(subsets([0]))
+
+*/
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
