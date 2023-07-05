@@ -2398,13 +2398,334 @@ var subsets = function(nums) {
 
 console.log(subsets([0]))
 
+
+
+var exist = function (board, word) {
+
+  let m = board.length
+  let n = board[0].length
+
+  let wordArr = word.split('')
+
+  function isInSort(x, y){
+    if(x < 0 || x >= m || y < 0 || y >= n) {
+      return false
+    }
+
+    
+    
+    const firtArr = wordArr.shift()
+    console.log(firtArr)
+
+    if(wordArr.length == 0 && board[x][y] === firtArr) {
+      return true
+    }
+    
+    if(board[x][y] === firtArr) {
+      board[x][y] = true
+      const firstWord = wordArr[0]
+      
+      let cacheArr = [...wordArr]
+      if( x> 0 && board[x-1][y] === firstWord) {
+        const res =  isInSort(x-1, y) 
+        if(res) {
+          return true
+        }
+        wordArr = [...cacheArr]
+
+      } 
+      if( x < m -1 &&  board[x+1][y] === firstWord) {
+        const res =  isInSort(x+1, y)
+        if(res) {
+          return true
+        }
+        wordArr = [...cacheArr]
+      }
+      if( y > 0&&  board[x][y-1] === firstWord) {
+        const res =  isInSort(x, y-1)
+        if(res) {
+          return true
+        }
+        wordArr = [...cacheArr]
+      }
+      if( y < n -1 && board[x][y+1] === firstWord) {
+        const res =  isInSort(x, y + 1)
+        if(res) {
+          return true
+        }
+        wordArr = [...cacheArr]
+      }
+      board[x][y] = firtArr
+      // console.log(wordArr)
+      
+    }
+    firtArr && wordArr.unshift(firtArr)
+    return false
+  }
+
+  for (let i = 0; i < m; i++) {
+    
+    for (let j = 0; j < n; j++) {
+     if(isInSort( i , j) ){
+      return true
+     }
+    }
+  }
+  return false
+
+};
+
+console.log(exist([['a']], 'b'))
+
+
+var removeDuplicates = function (nums) {
+  const n = nums.length;
+  if (n <= 2) {
+    return n;
+  }
+  let slow = 2,
+    fast = 2;
+  while (fast < n) {
+    if (nums[slow - 2] !== nums[fast]) {
+      nums[slow] = nums[fast]
+        ++slow;
+    }
+    ++fast;
+  }
+
+  console.log(nums)
+
+  return slow;
+};
+
+console.log(removeDuplicates([0, 0, 1, 1, 1, 1, 2, 3, 3]))
+
+
+var search = function(nums, target) {
+ 
+  let i = 0
+
+  function sortJ(){
+    let index = nums.length - 1
+    while(index > 0) {
+      if(nums[index] === target) {
+        return true
+      }
+
+      if(nums[index] < nums[index -1]) {
+        return false
+      }
+      index --
+      
+    }
+  }
+
+  let maxIndex = nums.length
+
+  while(i < maxIndex) {
+    if(nums[i] === target) {
+      return true
+    }
+    if(nums[i] > target) {
+      return sortJ() || false
+    } else if(nums[i] < target){
+      if(nums[i] > nums[i+1]) {
+        return false
+      }
+      i++
+    } else {
+      i++
+    }
+    
+  }
+
+  return false
+};
+
+console.log(search([4,5,6,7,0,1,2], 8))
+
+
+var deleteDuplicates = function(head) {
+ 
+  let cur = head
+
+  let dum = head
+
+  while(cur && cur.next) {
+   if(cur.val === cur.next.val) {
+    let val = cur.next.val
+    while(cur.next && cur.next.val === val) {
+      cur.next = cur.next.next
+    }
+
+   } else {
+    cur = cur.next
+   }
+  }
+
+  return dum
+};
+
+let head = [1,1,2,3,3]
+
+let next = null
+
+head.reverse().forEach(item => {
+  next = new ListNode(item, next)
+})
+
+console.log(deleteDuplicates(next))
+
+
+var largestRectangleArea = function (heights) {
+  let maxArea = 0
+  const stack = []
+  heights = [0, ...heights, 0]         
+  for (let i = 0; i < heights.length; i++) { 
+    while (heights[i] < heights[stack[stack.length - 1]]) { // 当前bar比栈顶bar矮
+      const stackTopIndex = stack.pop() // 栈顶元素出栈，并保存栈顶bar的索引
+      maxArea = Math.max(               // 计算面积，并挑战最大面积
+        maxArea,                        // 计算出栈的bar形成的长方形面积
+        heights[stackTopIndex] * (i - stack[stack.length - 1] - 1)
+      )
+    }
+    stack.push(i)                       // 当前bar比栈顶bar高了，入栈
+  }
+  return maxArea
+
+};
+
+console.log(largestRectangleArea([2, 1, 5, 6, 2, 3]))
+
+var partition = function (head, x) {
+  let small = new ListNode(0)
+  let smallHead = small
+  let large = new ListNode(0)
+  let largeHead = large
+
+  while (head) {
+    if (head.val < x) {
+      small.next = head
+      small = small.next
+     
+    } else {
+      large.next = head
+      large = large.next
+      
+    }
+    head = head.next
+  }
+  large.next = null
+  
+  
+  small.next = largeHead.next
+
+  return smallHead.next;
+};
+
+let head = [1, 4, 3, 2, 5, 2]
+
+let next = null
+head.reverse().forEach((v) => {
+  next = new ListNode(v, next)
+})
+console.log(partition(next, 3))
+
+
+var merge = function(nums1, m, nums2, n) {
+  let p1 = m - 1, p2 = n - 1;
+    let tail = m + n - 1;
+    
+    while (p1 >= 0 || p2 >= 0) {
+      var cur;
+        if (p1 === -1) {
+            cur = nums2[p2--];
+        } else if (p2 === -1) {
+            cur = nums1[p1--];
+        } else if (nums1[p1] > nums2[p2]) {
+            cur = nums1[p1--];
+        } else {
+            cur = nums2[p2--];
+        }
+        nums1[tail--] = cur;
+    }
+};
+
+let nums1 = [1,2,3,0,0,0]
+
+merge(nums1,3,[2,5,6],3)
+console.log(nums1)
+
+
+var grayCode = function(n) {
+  let max = Math.pow(2, n) -1
+  let min = 0
+  let arr = []
+
+  for(let i = min; i <= max; i++) {
+    // console.log(i ^ (i >> 1))
+    arr.push(i ^ (i >> 1))
+  }
+
+  return arr
+};
+
+console.log(grayCode(2))
+
+
+var subsetsWithDup = function (nums) {
+
+
+  nums.sort((a, b) => a - b);
+  let t = [],
+    ans = [];
+  const dfs = (choosePre, cur, nums) => {
+    if (cur === nums.length) {
+      ans.push(t.slice());
+      return;
+    }
+    dfs(false, cur + 1, nums);
+    if (!choosePre && cur > 0 && nums[cur - 1] === nums[cur]) {
+      return;
+    }
+    t.push(nums[cur]);
+    dfs(true, cur + 1, nums);
+    t = t.slice(0, t.length - 1);
+  }
+  dfs(false, 0, nums);
+  return ans;
+
+
+};
+
+console.log(subsetsWithDup([1, 2, 3]))
+
+
+// 数字 1-26 并不能以0开头
+var numDecodings = function(s) {
+  let n = s.length
+  let f = new Array(n + 1).fill(0)
+ f[0] = 1
+
+ for(let i =1; i<=n; ++i) {
+  if(s[i-1] !== '0') {
+    f[i] += f[i-1]
+  }
+  
+  if(i > 1 && s[i-2] !== '0' && ((s[i-2]) * 10 + (+s[i-1]) <= 26)) {
+    f[i] += f[i-2]
+  }
+ }
+
+ return f[n]  
+};
+
+console.log(numDecodings("12"))
 */
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'))
-root.render(
-  <React.StrictMode>
-    <App />
+root.render( <React.StrictMode >
+  <App />
   </React.StrictMode>,
 )
 

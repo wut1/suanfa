@@ -42,3 +42,8 @@
   contain-intrinsic-size: 174px;
 }
 
+.code-box-shape {
+  width: 100px;
+  height: 100px;
+  background-color: #333;
+}
